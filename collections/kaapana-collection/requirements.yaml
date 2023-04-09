@@ -32,6 +32,10 @@ dependencies:
     version: 0.0.0 
   - name: mitk-flow-workflow
     version: 0.0.0
+  - name: slicer-flow-chart
+    version: 0.0.0
+  - name: slicer-flow-workflow
+    version: 0.0.0
   - name: mitk-workbench-chart
     version: 0.0.0
   - name: nnunet-workflow
