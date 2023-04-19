@@ -8,19 +8,27 @@ WORKDIR /src
 # RUN mkdir -p /kaapana/mounted/slicer-data
 # RUN mkdir -p /kaapana/mounted/workflows/data
 
-# update required for libpulse-dev
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install -y libpulse-dev
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    libpulse-dev \
+    libglu1-mesa \
+    libnss3 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-render-util0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libxcb-shape0 \
+    libxcb-xinerama0 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# slicer-specific libraries
-RUN apt-get install -y libglu1-mesa
-RUN apt-get install -y libnss3
-RUN apt-get install -y libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0
-RUN apt-get install -y libxcb-shape0 libxcb-xinerama0 
-RUN apt-get install -y libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 
 # to clone slicer extensions
-RUN apt-get install -y git
+# RUN apt-get install -y git
 
 # Slicer 4.11.20200930 https://download.slicer.org/bitstream/60add70fae4540bf6a89bfb4
 # Slicer 5.0.2 https://download.slicer.org/bitstream/6286ce04e8408647b39f803a
@@ -54,7 +62,8 @@ COPY files/install-slicer-extension.py /opt/slicer
 # download an additional slicer extension
 # installation into slicer happens after container starts
 WORKDIR /opt/slicer
-RUN git clone -b multiple_server https://github.com/deepakri201/mpReview.git
+#RUN git clone -b multiple_server https://github.com/deepakri201/mpReview.git
+RUN git clone -b multiple_server https://github.com/nadya-58/mpReview.git
 
 # install wrapper script for reading Kaapana data via DAG flow and tasklist.json
 COPY files/SlicerFlow.py /opt/slicer

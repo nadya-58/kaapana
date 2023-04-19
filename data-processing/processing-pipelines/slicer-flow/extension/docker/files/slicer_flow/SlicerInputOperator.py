@@ -23,7 +23,7 @@ class SlicerInputOperator(KaapanaPythonBaseOperator):
         print("create json tasklist and dump it to batch level of the current airflow task run,")
         tasklist = dict()
         tasklist["FileFormat"] = "Slicer Segmentation Task List"
-        tasklist["Version"] = 1
+        tasklist["Version"] = 2
         tasklist["Name"] = "Kaapana Task List"
         tasklist["Tasks"] = tasks
 
@@ -50,6 +50,7 @@ class SlicerInputOperator(KaapanaPythonBaseOperator):
                 task = dict()
                 incoming_dcm = pydicom.dcmread(dcm_files[0])
                 seriesUID = incoming_dcm.SeriesInstanceUID
+                studyUID  = incoming_dcm.StudyInstanceUID 
                 patientID = incoming_dcm.PatientID + " task " + str(number)
                 number = number + 1
                 # check if it is a segmentation, if so, download the referencing images
@@ -61,22 +62,26 @@ class SlicerInputOperator(KaapanaPythonBaseOperator):
                     if not os.path.exists(target_dir):
                         os.makedirs(target_dir)
 
-                    result = self.downloadSeries(studyUID=incoming_dcm.StudyInstanceUID,
-                                                             seriesUID=seriesUID,
-                                                             target_dir=target_dir)
-                    if result:
-                        dcm_image = sorted(glob.glob(os.path.join(target_dir, "*.dcm*"), recursive=True))
-                        task["Image"] =  os.path.join(path_dir,REF_IMG,  os.path.basename(dcm_image[0]))                    
-                        task["Segmentation"] =  os.path.join(path_dir, self.operator_in_dir, os.path.basename(dcm_files[0]))                       
-                    else:
-                        print('Reference images to segmentation not found!')
-                        raise ValueError('ERROR')
+                    #result = self.downloadSeries(studyUID=incoming_dcm.StudyInstanceUID,
+                    #                                         seriesUID=seriesUID,
+                    #                                         target_dir=target_dir)
+                    #if result:
+                    #    dcm_image = sorted(glob.glob(os.path.join(target_dir, "*.dcm*"), recursive=True))
+                    #    task["Image"] =  os.path.join(path_dir,REF_IMG,  os.path.basename(dcm_image[0]))                    
+                    #    task["Segmentation"] =  os.path.join(path_dir, self.operator_in_dir, os.path.basename(dcm_files[0]))                       
+                    #else:
+                    #    print('Reference images to segmentation not found!')
+                    #    raise ValueError('ERROR')
+                
+                    task["SeriesUID"] = seriesUID
+
                 # otherwise only open images without segmentation
-                else:
-                    print("No segementaion, create scene with image only")
-                    task["Image"] = os.path.join(path_dir, self.operator_in_dir, os.path.basename(dcm_files[0]))
-                task["Result"] = os.path.join(path_dir, self.operator_out_dir, "result.dcm")
+                # else:
+                #    print("No segementaion, create scene with image only")
+                #    task["Image"] = os.path.join(path_dir, self.operator_in_dir, os.path.basename(dcm_files[0]))
+                #task["Result"] = os.path.join(path_dir, self.operator_out_dir, "result.dcm")
                 task["Name"] = patientID 
+                task["StudyInstanceUID"] = studyUID
                 tasks.append(task)
                 print("task successfully added:")
                 print(task)
