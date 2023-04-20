@@ -63,7 +63,7 @@ COPY files/install-slicer-extension.py /opt/slicer
 # installation into slicer happens after container starts
 WORKDIR /opt/slicer
 #RUN git clone -b multiple_server https://github.com/deepakri201/mpReview.git
-RUN git clone -b multiple_server https://github.com/nadya-58/mpReview.git
+#RUN git clone -b multiple_server https://github.com/nadya-58/mpReview.git
 
 # install wrapper script for reading Kaapana data via DAG flow and tasklist.json
 COPY files/SlicerFlow.py /opt/slicer
@@ -80,3 +80,4 @@ RUN chmod +x /home/slicer/Desktop/startSlicer.sh
 
 # A supervisord config is used to make the application managed
 COPY files/supervisord.conf /etc/supervisor/conf.d/
+
