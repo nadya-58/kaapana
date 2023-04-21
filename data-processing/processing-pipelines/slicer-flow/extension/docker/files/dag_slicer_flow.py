@@ -51,7 +51,8 @@ dag = DAG(
     schedule_interval=None
 )
 
-get_input = LocalGetInputDataOperator(dag=dag)
+#get_input = LocalGetInputDataOperator(dag=dag)
+get_input = LocalGetInputDataOperator(dag=dag, data_type="json")
 slicer_input = SlicerInputOperator(dag=dag, input_operator=get_input, operator_out_dir="slicer-results")
 launch_app = KaapanaApplicationOperator(dag=dag,
                                         name="application-slicer-flow",
@@ -63,3 +64,4 @@ clean = LocalWorkflowCleanerOperator(dag=dag)
 
 
 get_input >> slicer_input >> launch_app >> send_dicom >> clean
+#get_input >> launch_app >> send_dicom >> clean
