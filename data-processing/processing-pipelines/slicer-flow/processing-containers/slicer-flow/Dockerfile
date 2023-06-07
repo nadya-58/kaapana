@@ -77,9 +77,12 @@ RUN chmod +x /home/slicer/Desktop/startSlicer.sh
 
 # copy an empty DICOM database prior to slicer startup
 # sql files might be dependent on slicer version
-RUN mkdir -p /home/slicer/Documents/SlicerDICOMDatabase
-COPY files/SlicerDICOMDatabase/ctkDICOM.sql /home/slicer/Documents/SlicerDICOMDatabase
-COPY files/SlicerDICOMDatabase/ctkDICOMTagCache.sql /home/slicer/Documents/SlicerDICOMDatabase
+# RUN mkdir -p /home/slicer/Documents/SlicerDICOMDatabase
+# COPY files/SlicerDICOMDatabase/ctkDICOM.sql /home/slicer/Documents/SlicerDICOMDatabase
+# COPY files/SlicerDICOMDatabase/ctkDICOMTagCache.sql /home/slicer/Documents/SlicerDICOMDatabase
+
+# create DICOM database at slicer startup
+COPY files/.slicerrc.py /home/slicer
 
 # RUN ln -s /data /home/slicer/Desktop/
 # WORKDIR /data
