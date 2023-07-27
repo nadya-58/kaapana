@@ -16,7 +16,8 @@ echo "slicer" | sudo -S chown slicer:slicer -R /home/slicer/Documents
 
 # download mpReview module
 cd /opt/slicer
-git clone -b multiple_server_feature https://github.com/nadya-58/mpReview.git
+#git clone -b multiple_server_feature https://github.com/nadya-58/mpReview.git
+git clone -b multiple_server_feature_json_hierarchy https://github.com/deepakri201/mpReview.git
 
 # install slicer extensions
 /opt/slicer/Slicer --python-script /opt/slicer/install-slicer-extension.py --no-splash --no-main-window
