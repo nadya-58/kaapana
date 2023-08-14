@@ -257,15 +257,16 @@ def helm_registry_login(username, password):
 
     BuildUtils.logger.info(f"-> Helm registry-login: {BuildUtils.default_registry}")
     command = [
-        "helm",
+        "echo", #"helm",
         "registry",
         "login",
         BuildUtils.default_registry,
-        "--username",
-        username,
-        "--password",
-        password,
+        #"--username",
+        #username,
+        #"--password",
+        #password,
     ]
+    print(command)
     output = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, timeout=10)
 
     if output.returncode != 0:

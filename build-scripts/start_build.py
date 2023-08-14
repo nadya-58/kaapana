@@ -597,7 +597,7 @@ if __name__ == "__main__":
             )
             logger.error("You have to either specify --username & --password ")
             logger.error("Or use the ENVs: 'REGISTRY_USER' & 'REGISTRY_PW' !")
-            exit(1)
+            #exit(1)
 
     if log_level not in supported_log_levels:
         logger.error(f"Log level {log_level} not supported.")

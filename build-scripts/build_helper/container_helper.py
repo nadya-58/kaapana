@@ -32,10 +32,10 @@ def container_registry_login(username, password):
         Container.container_engine,
         "login",
         BuildUtils.default_registry,
-        "--username",
-        username,
-        "--password",
-        password,
+        #"--username",
+        #username,
+        #"--password",
+        #password,
     ]
     output = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, timeout=10)
 

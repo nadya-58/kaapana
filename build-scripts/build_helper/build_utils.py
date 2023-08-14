@@ -67,6 +67,8 @@ class BuildUtils:
 
     @staticmethod
     def get_repo_info(repo_dir):
+        #NS
+        print('repo dir', repo_dir)
         while not exists(join(repo_dir, ".git")) and repo_dir != "/":
             repo_dir = dirname(repo_dir)
         assert repo_dir != "/"
